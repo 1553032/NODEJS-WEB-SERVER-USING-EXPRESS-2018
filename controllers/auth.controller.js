@@ -1,13 +1,13 @@
-const db = require('../db');
+const User = require('../models/user.model');
 const _ = require('lodash');
 
 module.exports.login = (req, res) => {
 	res.render('auth/login');
 };
 
-module.exports.postLogin = (req, res) => {
+module.exports.postLogin = async(req, res) => {
 	const data = req.body;
-	const user = db.get('students').value().find((student) => student.email === data.email);
+	const user = await User.findOne({email: data.email});
 
 	if (!user) {
 		res.render('auth/login', {
@@ -25,6 +25,8 @@ module.exports.postLogin = (req, res) => {
 		return;
 	}
 
-	res.cookie('userId', user.id);
+	res.cookie('userId', user._id,{
+		signed: true
+	});
 	res.redirect('/users');
 };

@@ -1,8 +1,8 @@
-const db = require('../db');
+const User = require('../models/user.model');
 
-module.exports.index = (req, res) => {
-	const students = db.get('students').value()
-	
+module.exports.index = async (req, res) => {
+	const students = await User.find();
+
 	res.render('index', { students: students });
 };
 
@@ -12,18 +12,20 @@ module.exports.test = (req, res) => {
 	res.send('Cookie has set');
 };
 
-module.exports.getDetail = (req, res) => {
+module.exports.getDetail = async (req, res) => {
 	const id = req.params.studentID;
-	const students = db.get('students').value();
-	const foundStudent = students.find((student) => student.id === id);
+	const foundStudent = await User.findById(id);
 	res.render('detail', { student: foundStudent });
 };
 
-module.exports.search = (req, res) => {
+module.exports.search = async (req, res) => {
 	const data = req.query;
 	const name = data.name;
-	const students = db.get('students').value();
-	const foundStudents = students.filter((student) => student.name.toLowerCase().indexOf(name.toLowerCase()) !== -1);
+	const foundStudents = await User.find({
+		name: {
+			$regex: name
+		}
+	})
 	res.render('index', { students: foundStudents, searchPara: name });
 };
 
@@ -32,8 +34,8 @@ module.exports.create = (req, res) => {
 	res.render('create');
 };
 
-module.exports.postCreate = (req, res) => {
+module.exports.postCreate = async (req, res) => {
 	const data = req.body;
-	db.get('students').push({ name: data.name, id: data.id, path: data.file }).write();
+	await User.create({name: data.name, avatar: data.file});
 	res.redirect('/');
 };

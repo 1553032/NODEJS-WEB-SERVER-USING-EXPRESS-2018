@@ -1,9 +1,11 @@
 module.exports.postCreate = (req, res, next) => {
 	
 	const data = req.body;
+	let path
 	const errors = [];
-	
-	const path = req.file.path.split("\\").slice(1).join("/");
+	if(req.file){
+		path = req.file.path.split("\\").slice(1).join("/");
+	}
 	req.body.file = path;
 
 	if (!data.name) {

@@ -1,0 +1,11 @@
+extends ../layouts/common
+block content
+    .d-flex.flex-wrap
+        for product in products
+            .card.mx-2.my-2(style='width: 16rem;')
+                img.card-img-top(src=product.image, alt='Card image cap')
+                .card-body
+                    h5.card-title= product.name
+                    p.card-text
+                        =product.description
+                    a.btn.btn-primary(href='/cart/' + product.id) Add To Cart

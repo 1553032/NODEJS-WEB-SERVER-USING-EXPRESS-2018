@@ -1,0 +1,7 @@
+/*Show static CSS*/
+.portrait {
+    width: 200px;
+    height: 200px;
+    border-radius: 90%;
+    border: 2px solid #333;
+}

@@ -1,0 +1,18 @@
+extends layouts/common
+block content
+
+    if errors
+        for error in errors
+            .alert.alert-danger=error
+
+    form(action="/users/create" method="Post" enctype="multipart/form-data")
+        .form-group
+            label id
+            input.form-control(type="text", name="id" value=values ? values.id : '')
+        .form-group
+            label Name
+            input.form-control(type="name", name="name" value=`${values ? values.name: ''}`)
+        .form-group
+            label Profile
+            input(type="file", name="avatar")
+        button.btn.btn-primary(type="submit") Submit

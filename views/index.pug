@@ -1,0 +1,22 @@
+extends layouts/common
+block content
+        a.btn.btn-primary.mb-2(href="/users/create") Create User
+        form(action="/users/search" method = "GET" class="d-flex")
+            input(type="text" name="name" value=searchPara class="form-control" class="mr-2")
+            button(type="submit" class="btn btn-primary") Submit
+        table.table
+            thead
+                tr
+                    th Name
+                    th ID
+                    th
+                    th Image
+            for student, idx in students
+                tr
+                    td=student.name
+                    td=student.id
+                    td
+                        a(href="/users/" + student.id) View
+                    td
+                        img(src=student.path, width="64")
+                //- li Student's name: #{student.name} - ID: #{student.id}
